@@ -1,0 +1,10 @@
+node_modules/
+*.pid
+*.log
+*~
+.idea/
+target/
+.vscode/
+.DS_Store
+*.iml
+cert/

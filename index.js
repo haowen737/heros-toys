@@ -1,29 +1,20 @@
 const Koa = require('koa')
 // const cogMan = require('./server/cogMan')
-const serve = require('koa-static-server')
+// const serve = require('koa-static-server')
+const serve = require('koa-static')
 const compress = require('koa-compress')
+const mount = require('koa-mount')
 const path = require('path')
-const fs = require('fs')
 
-const app = new Koa()
+const { buildFilePath, buildFileStaticPath } = require('./toysBuilder')
 
 const toys = ['/locater', '/clock']
 
-const buildFilePath = (t) => {
-  const filePath = fs.existsSync(path.join(__dirname, `/toys${t}/dist`))
-  ? `/toys${t}/dist`
-  : `/toys${t}/build`
-
-  console.log(filePath)
-  return filePath
-}
+const app = new Koa()
 
 const loadStaticServer = (t) => {
-  return app.use(serve({
-      rootDir: path.join(__dirname, buildFilePath(t)),
-      gzip: true,
-      rootPath: `${t}`
-    }))
+  app.use(mount('/static', serve(path.join(__dirname, buildFileStaticPath(t)))))
+  app.use(mount(`${t}`, serve(path.join(__dirname, buildFilePath(t)))))
 }
 
 toys.map(t => loadStaticServer(t))
