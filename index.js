@@ -8,12 +8,12 @@ const path = require('path')
 
 const { buildFilePath, buildFileStaticPath } = require('./toysBuilder')
 
-const toys = ['/locater', '/clock']
+const toys = ['/locater', '/clock', '/agApp']
 
 const app = new Koa()
 
 const loadStaticServer = (t) => {
-  app.use(mount('/static', serve(path.join(__dirname, buildFileStaticPath(t)))))
+  // app.use(mount('/static', serve(path.join(__dirname, buildFileStaticPath(t)))))
   app.use(mount(`${t}`, serve(path.join(__dirname, buildFilePath(t)))))
 }
 
